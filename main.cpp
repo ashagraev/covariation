@@ -69,12 +69,12 @@ double SmartCovariation(const std::vector<double>& x, const std::vector<double>&
 }
 
 double Error(const double target, const double value) {
-    return fabs(value - target) / std::max(1., fabs(target));
+    return fabs(value - target) / fabs(target);
 }
 
 int main() {
-    size_t interestingSizes[] = { 100000, 1000000, 5000000 };
-    double interestingMeans[] = { 1, 1000, 1000000 };
+    size_t interestingSizes[] = { 10000, 100000, 1000000, 5000000 };
+    double interestingMeans[] = { 100, 100000, 10000000 };
 
     for (const double mean : interestingMeans) {
         std::vector<double> x;
@@ -83,8 +83,8 @@ int main() {
         const double xMean = mean;
         const double yMean = mean;
 
-        double xDiff = 1e-2;
-        double yDiff = 1e-2;
+        double xDiff = 1;
+        double yDiff = 1;
 
         const double actualCovariation = xDiff * yDiff;
 
@@ -97,17 +97,19 @@ int main() {
                 x.push_back(xMean + xDiff);
                 y.push_back(yMean + yDiff);
 
-                xDiff = -xDiff;
-                yDiff = -yDiff;
+                if (rand() % 2) {
+                    xDiff = -xDiff;
+                    yDiff = -yDiff;
+                }
             }
 
             const double dummyCovariation = DummyCovariation(x, y);
             const double kahanCovariation = KahanCovariation(x, y);
             const double smartCovariation = SmartCovariation(x, y);
 
-            const double dummyError = Error(actualCovariation, dummyCovariation);
-            const double kahanError = Error(actualCovariation, kahanCovariation);
-            const double smartError = Error(actualCovariation, smartCovariation);
+            const double dummyError = Error(actualCovariation, dummyCovariation) * 100;
+            const double kahanError = Error(actualCovariation, kahanCovariation) * 100;
+            const double smartError = Error(actualCovariation, smartCovariation) * 100;
 
             printf("\tsize: %lu\n", interestingSize);
             printf("\t\tactual covariation: %.10lf\n", actualCovariation);
