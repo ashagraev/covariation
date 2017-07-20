@@ -163,7 +163,7 @@ private:
 };
 
 int main() {
-    double interestingMeans[] = { 100, 100000, 10000000 };
+    double interestingMeans[] = { 100000, 10000000 };
 
     for (const double mean : interestingMeans) {
         const double xMean = mean;
