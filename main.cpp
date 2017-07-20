@@ -185,15 +185,19 @@ int main() {
             printer.AddColumn(calculator->Name());
         }
 
+        std::vector<double> maxErrors(calculators.size(), 0.);
+
         const size_t count = 10000000;
         for (size_t i = 0; i < count; ++i) {
             if (i && (i % (count / 100) == 0)) {
                 printer.AddRow();
                 printer.AddToRow(i);
-                for (auto&& calculator : calculators) {
-                    const double calculatedCovariation = calculator->Covariation();
+                for (size_t calculatorIdx = 0; calculatorIdx < calculators.size(); ++calculatorIdx) {
+                    const double calculatedCovariation = calculators[calculatorIdx]->Covariation();
                     const double error = Error(actualCovariation, calculatedCovariation) * 100;
                     printer.AddToRow(error);
+
+                    maxErrors[calculatorIdx] = std::max(maxErrors[calculatorIdx], error);
                 }
             }
 
@@ -203,6 +207,12 @@ int main() {
             for (auto&& calculator : calculators) {
                 calculator->Add(xMean + xDiff, yMean + yDiff);
             }
+        }
+
+        printer.AddRow();
+        printer.AddToRow("MaxError");
+        for (size_t i = 0; i < calculators.size(); ++i) {
+            printer.AddToRow(maxErrors[i]);
         }
 
         printer.Print();
