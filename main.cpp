@@ -1,10 +1,10 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
-#include <numeric>
-#include <vector>
 #include <memory>
+#include <numeric>
 #include <sstream>
+#include <vector>
 
 class TKahanAccumulator {
 private:
