@@ -197,10 +197,8 @@ int main() {
                 }
             }
 
-            if (rand() % 2) {
-                xDiff = -xDiff;
-                yDiff = -yDiff;
-            }
+            xDiff = -xDiff;
+            yDiff = -yDiff;
 
             for (auto&& calculator : calculators) {
                 calculator->Add(xMean + xDiff, yMean + yDiff);
