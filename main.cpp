@@ -67,10 +67,12 @@ public:
 using TDummyCovariationCalculator = TTypedCovariationCalculator<double>;
 using TKahanCovariationCalculator = TTypedCovariationCalculator<TKahanAccumulator>;
 
+template <>
 std::string TDummyCovariationCalculator::Name() const {
     return "Dummy";
 };
 
+template <>
 std::string TKahanCovariationCalculator::Name() const {
     return "Kahan";
 };
