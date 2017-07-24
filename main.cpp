@@ -64,7 +64,7 @@ public:
     std::string Name() const override;
 };
 
-using TDummyCovariationCalculator = TTypedCovariationCalculator<double>;
+using TDummyCovariationCalculator = TTypedCovariationCalculator<long double>;
 using TKahanCovariationCalculator = TTypedCovariationCalculator<TKahanAccumulator>;
 
 template <>
